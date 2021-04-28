@@ -20,10 +20,14 @@ import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Set;
 
 public class MusicPlayer extends Application {
     static MediaPlayer player;
     static double len = 0;
+    static Label l = null;
+    static Set<Song> songs_set;
     
     public static String[] songs = {
             "01 Giving Bad People Good Ideas.mp3",
@@ -42,7 +46,7 @@ public class MusicPlayer extends Application {
     };
     public static String current_song = songs[0];
     
-    public javafx.scene.control.Label makeLabel(String text, javafx.scene.text.Font font, BackgroundFill backgroundFill, javafx.geometry.Insets insets){
+    public static javafx.scene.control.Label makeLabel(String text, javafx.scene.text.Font font, BackgroundFill backgroundFill, javafx.geometry.Insets insets){
         javafx.scene.control.Label label = new Label(text);
         label.setFont(font);
         label.setBackground(new Background(backgroundFill));
@@ -143,16 +147,21 @@ public class MusicPlayer extends Application {
                 player.stop();
             }
             current_song = path;
+            Song s = new Song("media/sounds/"+path, text, "media/images/Cover.jpg");
+            songs_set.add(s);
             String uri = new File("media/sounds/"+path).toURI().toString();
             Media media = new Media(uri);
             player = new MediaPlayer(media);
             player.play();
+            l.setText(text);
         });
         return button;
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        Label l = makeLabel("DEATH GRIPS : BOTTOMLESS PIT", new javafx.scene.text.Font("Comic Sans MS", 32), new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY), javafx.geometry.Insets.EMPTY);
+
         BorderPane pane = new BorderPane();
         VBox box = new VBox();
         box.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.GREY, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY)));
@@ -180,7 +189,7 @@ public class MusicPlayer extends Application {
         );
 
         pane.setCenter(box);
-        pane.setTop(makeLabel("DEATH GRIPS : BOTTOMLESS PIT", new javafx.scene.text.Font("Comic Sans MS", 32), new BackgroundFill(javafx.scene.paint.Color.BLACK, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY), javafx.geometry.Insets.EMPTY));
+        pane.setTop(l);
         pane.setLeft(box3);
         pane.setBottom(box2);
 

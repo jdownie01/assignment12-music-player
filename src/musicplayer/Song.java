@@ -45,41 +45,4 @@ public class Song {
         this.pathToImageFile = pathToImageFile;
         state = STATE.STOPPED;
     }
-
-    public void play() throws IOException {
-        state = STATE.PLAYING;
-        // Open an input stream  to the audio file.
-        in = new FileInputStream(pathToFile);
-        as = new AudioStream(in);
-        AudioPlayer.player.start(as);
-
-
-
-    }
-
-    public void pause() {
-        if (state == STATE.PAUSED) {
-            state = STATE.PLAYING;
-            AudioPlayer.player.start(as);
-        } else {
-            state = STATE.PAUSED;
-            AudioPlayer.player.stop(as);
-        }
-    }
-
-    public void rewind() {
-        // decrement playbackProgress by 10
-        playbackProgress -= 10;
-    }
-
-    public void forward() {
-        // increment playbackProgress by 10
-        playbackProgress += 10;
-    }
-
-    public void stop() {
-        state = STATE.STOPPED;
-        AudioPlayer.player.stop(as);
-        playbackProgress = 0;
-    }
 }

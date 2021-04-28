@@ -31,18 +31,35 @@ public class Song {
         return pathToImageFile;
     }
 
-    enum STATE {
-        PLAYING,
-        PAUSED,
-        STOPPED
-    }
-
-    private STATE state;
-
     public Song(String pathToFile, String description, String pathToImageFile) {
         this.pathToFile = pathToFile;
         this.description = description;
         this.pathToImageFile = pathToImageFile;
-        state = STATE.STOPPED;
+    }
+
+    public void play() throws IOException {
+        in = new FileInputStream(pathToFile);
+        as = new AudioStream(in);
+        AudioPlayer.player.start(as);
+
+
+
+    }
+
+    public void pause() {
+        //
+    }
+
+    public void rewind() {
+        playbackProgress -= 10;
+    }
+
+    public void forward() {
+        playbackProgress += 10;
+    }
+
+    public void stop() {
+        AudioPlayer.player.stop(as);
+        playbackProgress = 0;
     }
 }
